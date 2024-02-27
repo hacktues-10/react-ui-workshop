@@ -1,11 +1,14 @@
 import { View, Image, Text } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+import { MessageType } from "../types";
 
 export default function Message(props: {
+  id: number;
   text: string;
   from: string;
   avatar: string;
   isLiked: boolean;
+  toggleLike: (message: MessageType) => void;
 }) {
   return (
     <View
@@ -39,7 +42,13 @@ export default function Message(props: {
         }}
         color="black"
         onPress={() => {
-          console.log("Liked");
+          props.toggleLike({
+            id: props.id,
+            text: props.text,
+            from: props.from,
+            avatar: props.avatar,
+            is_liked: props.isLiked,
+          });
         }}
       />
     </View>
