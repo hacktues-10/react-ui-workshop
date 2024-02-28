@@ -24,7 +24,6 @@ export default function App() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setMessages((prevMessages) => {
             return [...data.reverse(), ...prevMessages];
           });
