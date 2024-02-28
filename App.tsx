@@ -50,7 +50,18 @@ export default function App() {
           is_liked: !message.is_liked,
           api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
         }),
-      });
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setMessages((prevMessages) => {
+            return prevMessages.map((msg) => {
+              if (msg.id === message.id) {
+                return data;
+              }
+              return msg;
+            });
+          });
+        });
     } catch (error) {
       console.error(error);
     }
@@ -66,20 +77,12 @@ export default function App() {
         body: JSON.stringify({
           api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
         }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setMessages([]);
-        });
+      });
+      setMessages([]);
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   return (
     <View style={styles.container}>
@@ -110,7 +113,7 @@ export default function App() {
             text={item.text}
             from={item.from}
             avatar={item.avatar}
-            isLiked={item.isLiked}
+            is_liked={item.is_liked}
             toggleLike={toggleLike}
           />
         )}

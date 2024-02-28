@@ -7,7 +7,7 @@ export default function Message(props: {
   text: string;
   from: string;
   avatar: string;
-  isLiked: boolean;
+  is_liked: boolean;
   toggleLike: (message: MessageType) => void;
 }) {
   return (
@@ -35,7 +35,7 @@ export default function Message(props: {
         <Text style={{ color: "black" }}>{props.text}</Text>
       </View>
       <Icon
-        name={props.isLiked ? "like1" : "like2"}
+        name={props.is_liked ? "like1" : "like2"}
         size={16}
         style={{
           margin: 5,
@@ -48,7 +48,7 @@ export default function Message(props: {
             text: props.text,
             from: props.from,
             avatar: props.avatar,
-            is_liked: props.isLiked,
+            is_liked: props.is_liked,
           });
         }}
       />
