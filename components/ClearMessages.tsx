@@ -19,3 +19,4 @@ export default function ClearMessages(props: { onClick: () => void }) {
     </TouchableOpacity>
   );
 }
+//
