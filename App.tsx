@@ -5,7 +5,6 @@ import TextInputContainer from "./components/TextInputContainer";
 import ClearMessages from "./components/ClearMessages";
 import Message from "./components/Message";
 import { MessageType } from "./types";
-
 export default function App() {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([] as MessageType[]);
@@ -13,7 +12,6 @@ export default function App() {
   const FlatListRef = useRef<FlatList>(null);
 
   const sendMessage = async () => {
-    console.log(text);
     try {
       fetch("http://167.99.139.2/messages", {
         method: "POST",
@@ -22,7 +20,6 @@ export default function App() {
         },
         body: JSON.stringify({
           text: text,
-          api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
         }),
       })
         .then((response) => response.json())
@@ -48,7 +45,6 @@ export default function App() {
         },
         body: JSON.stringify({
           is_liked: !message.is_liked,
-          api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
         }),
       })
         .then((response) => response.json())
@@ -74,15 +70,33 @@ export default function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
-        }),
       });
       setMessages([]);
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        fetch("http://167.99.139.2/messages", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setMessages(data.reverse());
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMessages();
+  }, []);
 
   return (
     <View style={styles.container}>
