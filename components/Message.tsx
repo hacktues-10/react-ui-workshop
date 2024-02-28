@@ -39,6 +39,7 @@ export default function Message(props: {
         size={16}
         style={{
           margin: 5,
+          display: props.from === "Съли" ? "flex" : "none",
         }}
         color="black"
         onPress={() => {

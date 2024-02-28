@@ -8,19 +8,12 @@ import { MessageType } from "./types";
 
 export default function App() {
   const [text, setText] = useState("");
-  const [messages, setMessages] = useState(
-    [] as {
-      id: number;
-      text: string;
-      from: string;
-      avatar: string;
-      is_liked?: boolean;
-    }[]
-  );
+  const [messages, setMessages] = useState([] as MessageType[]);
 
   const FlatListRef = useRef<FlatList>(null);
 
   const sendMessage = async () => {
+    console.log(text);
     try {
       fetch("http://167.99.139.2/messages", {
         method: "POST",
@@ -63,13 +56,34 @@ export default function App() {
     }
   };
 
+  const clearHistory = async () => {
+    try {
+      fetch("http://167.99.139.2/messages", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          api_key: "SULLY#THEINTERDIMENSIONALtraveler!",
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setMessages([]);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     console.log(messages);
   }, [messages]);
 
   return (
     <View style={styles.container}>
-      {messages.length > 0 && <ClearMessages onClick={() => setMessages([])} />}
+      {messages.length > 0 && <ClearMessages onClick={clearHistory} />}
       {messages.length < 1 && (
         <Image
           style={{ width: 200, height: 200, position: "absolute", top: "38%" }}
